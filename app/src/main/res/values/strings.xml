@@ -1,3 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">EBazar</string>
+	<!-- android_large___1 strings -->
+
+	<string name="app_name">E Bazar</string>
+	<string name="forgot_password__string">FORGOT PASSWORD?</string>
+	<string name="or_string">OR</string>
+	<string name="already_have_an_account__string">Already Have an Account?</string>
+	<string name="password_string">Password</string>
+	<string name="phone_number_string">Phone Number</string>
+	<string name="don_t_have_an_account__string">Don\'t have an account?</string>
+	<string name="register_string">Register</string>
+	<string name="login_string">LOGIN</string>
+	<string name="login_wavy">wavy background image</string>
+	<string name="user_desc">User Icon</string>
 </resources>
