@@ -12,7 +12,7 @@
     <ImageView
         android:id="@+id/login_illustration"
         android:layout_width="411dp"
-        android:layout_height="358dp"
+        android:layout_height="303dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -58,7 +58,7 @@
         android:textColorHint="@color/secondary"
         android:paddingStart="20dp"
         android:hint="@string/email"
-        android:inputType="phone"
+        android:inputType="textEmailAddress"
         android:textColor="@color/secondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.552"

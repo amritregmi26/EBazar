@@ -13,4 +13,12 @@
 	<string name="login_string">LOGIN</string>
 	<string name="login_wavy">wavy background image</string>
 	<string name="user_desc">User Icon</string>
+    <string name="log_in">Log In</string>
+    <string name="login">Login</string>
+    <string name="create_your_account">Create Your Account</string>
+	<string name="full_name">Full Name</string>
+	<string name="address">Address</string>
+	<string name="email">Email</string>
+	<string name="confirm_password">Confirm Password</string>
+	<string name="sign_up">Sign Up</string>
 </resources>
