@@ -7,7 +7,6 @@ import kotlinx.android.synthetic.main.fragment_account.view.user_image
 class AccountFragment : Fragment(R.layout.fragment_account)
 {
     private lateinit var binding: FragmentAccountBinding
-
     //picUpdate function is used to update the profile picture of the user
     private fun picUpdate()
     {
@@ -30,7 +29,9 @@ class AccountFragment : Fragment(R.layout.fragment_account)
     }
 
     private fun infoEdit()
-    {}
+    {
+
+    }
 
 
 }

@@ -29,16 +29,18 @@ class LoginController: AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         binding.loginBtn.setOnClickListener {
-            val phoneNumber = binding.loginPhone.text.toString()
+            val email = binding.loginEmail!!.text.toString()
             val password = binding.loginPassword.text.toString()
 
-            if(phoneNumber.isNotEmpty() && password.isNotEmpty())
+            if(email.isNotEmpty() && password.isNotEmpty())
             {
-                auth.signInWithEmailAndPassword(phoneNumber, password).addOnCompleteListener {
+                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                     if(it.isSuccessful)
                     {
                         val intent = Intent(this, MainActivity::class.java)
+                        intent.putExtra("email", email)
                         startActivity(intent)
+                        finish()
                     }
                     else
                     {

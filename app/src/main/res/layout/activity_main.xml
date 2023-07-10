@@ -26,6 +26,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="@color/secondary"
-        app:itemTextColor="@color/secondary" />
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconSize="35dp"
+        app:itemIconTint="@color/bottom_nav_color"
+        app:itemTextColor="@color/bottom_nav_color" />
 </androidx.constraintlayout.widget.ConstraintLayout>

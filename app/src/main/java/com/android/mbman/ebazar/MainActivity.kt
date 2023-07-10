@@ -1,10 +1,13 @@
 package com.android.mbman.ebazar
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.toColor
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import com.android.mbman.ebazar.databinding.ActivityMainBinding
@@ -20,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Fragment Initialization
         val accountFragment = AccountFragment()
         val helpFragment = HelpFragment()
         val searchFragment = SearchFragment()

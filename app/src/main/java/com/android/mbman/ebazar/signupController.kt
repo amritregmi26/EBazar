@@ -27,6 +27,7 @@ class SignupController : AppCompatActivity() {
         binding.loginLink.setOnClickListener {
             val intent = Intent(this, LoginController::class.java)
             startActivity(intent)
+            finish()
         }
 
         // Processes to be followed after clicking the sign up button
@@ -48,31 +49,42 @@ class SignupController : AppCompatActivity() {
                 )
 
                 if (password == confirmPass) {
-                    val users = db.collection("Users")
-                    users.document(email).get()
-                        .addOnSuccessListener {
-                            task ->
-                            if (task.exists()) {
-                                Toast.makeText(this, "User Already Registered", Toast.LENGTH_LONG).show()
-                                val intent = Intent(this, LoginController::class.java)
-                                startActivity(intent)
-                            } else {
-                                auth.createUserWithEmailAndPassword(email, password)
-                                    .addOnCompleteListener(this) { task ->
-                                        if (task.isSuccessful) {
-                                            users.document(email).set(userData)
-                                            val intent = Intent(this, MainActivity::class.java)
-                                            startActivity(intent)
-                                        } else {
-                                            Toast.makeText(
-                                                this,
-                                                "Authentication Failed",
-                                                Toast.LENGTH_LONG
-                                            )
+                    if(password.length <= 5)
+                    {
+                        Toast.makeText(this, "Password must be at least 6 characters long",Toast.LENGTH_LONG).show()
+                    }
+                    else {
+                        val users = db.collection("Users")
+                        users.document(email).get()
+                            .addOnSuccessListener { task ->
+                                if (task.exists()) {
+                                    Toast.makeText(
+                                        this,
+                                        "User Already Registered",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    val intent = Intent(this, LoginController::class.java)
+                                    startActivity(intent)
+                                } else {
+                                    auth.createUserWithEmailAndPassword(email, password)
+                                        .addOnCompleteListener(this) { task ->
+                                            if (task.isSuccessful) {
+                                                users.document(email).set(userData)
+                                                val intent = Intent(this, MainActivity::class.java)
+                                                intent.putExtra("email", email)
+                                                startActivity(intent)
+                                                finish()
+                                            } else {
+                                                Toast.makeText(
+                                                    this,
+                                                    "Authentication Failed",
+                                                    Toast.LENGTH_LONG
+                                                )
+                                            }
                                         }
-                                    }
+                                }
                             }
-                        }
+                    }
                 } else {
                     Toast.makeText(this, "Password Did Not Match !!", Toast.LENGTH_SHORT).show()
                 }
