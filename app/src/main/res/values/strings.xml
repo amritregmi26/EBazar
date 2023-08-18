@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- android_large___1 strings -->
+
+    <string name="app_name">E Bazar</string>
+    <string name="forgot_password__string">FORGOT PASSWORD?</string>
+    <string name="or_string">OR</string>
+    <string name="already_have_an_account__string">Already Have an Account?</string>
+    <string name="password_string">Password</string>
+    <string name="phone_number_string">Phone Number</string>
+    <string name="don_t_have_an_account__string">Don\'t have an account?</string>
+    <string name="register_string">Register</string>
+    <string name="login_string">LOGIN</string>
+    <string name="login_wavy">wavy background image</string>
+    <string name="user_desc">User Icon</string>
+    <string name="log_in">Log In</string>
+    <string name="login">Login</string>
+    <string name="create_your_account">Create Your Account</string>
+    <string name="full_name">Full Name</string>
+    <string name="address">Address</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="save_amp_update"><![CDATA[Save & Update]]></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="your_profile">Your Profile</string>
+    <string name="update_profile_picture">Update Profile Picture</string>
+    <string name="about_e_bazar">About E-Bazar</string>
+    <string name="user_manual">User Manual</string>
+    <string name="report_problems">Report Problems</string>
+    <string name="subject">Subject</string>
+    <string name="message">Message</string>
+    <string name="report">Report</string>
+</resources>

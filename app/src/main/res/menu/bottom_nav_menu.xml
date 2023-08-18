@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/miHome"
+        android:title="Home"
+        android:icon="@drawable/ic_home_icon" />
+
+    <item
+        android:id="@+id/miList"
+        android:title="List Product"
+        android:icon="@drawable/ic_list_product_icon" />
+
+    <item
+        android:id="@+id/miHelp"
+        android:title="Help"
+        android:icon="@drawable/ic_help_icon" />
+
+    <item
+        android:id="@+id/miAcc"
+        android:title="Account"
+        android:icon="@drawable/ic_account_icon" />
+
+
+</menu>
