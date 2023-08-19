@@ -1,18 +1,10 @@
 package com.android.mbman.ebazar
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.Window
-import android.view.WindowManager
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.toColor
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import com.android.mbman.ebazar.databinding.ActivityMainBinding
-import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_main.flFragment
+import com.android.mbman.ebazar.productlist.ListProductFragment
 
 
 class MainActivity : AppCompatActivity() {
