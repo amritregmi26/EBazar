@@ -33,6 +33,7 @@
     <string name="message">Message</string>
     <string name="report">Report</string>
     <string name="product_name">Product Name</string>
+    <string name="category">Product Category</string>
     <string name="product_price">Product Price</string>
     <string name="add_product">add_product</string>
     <string name="add_your_product">Add Your Product</string>

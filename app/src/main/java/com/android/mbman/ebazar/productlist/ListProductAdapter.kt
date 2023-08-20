@@ -6,8 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -16,7 +14,6 @@ import com.android.mbman.ebazar.R
 import com.bumptech.glide.Glide
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import org.w3c.dom.Text
 
 class ListProductAdapter(
     private val context: Context,
@@ -36,6 +33,7 @@ class ListProductAdapter(
 
         holder.productName.text = model.productName
         holder.productPrice.text = model.productPrice
+        holder.product_category.text = model.category
 
         Log.d("PRODUCT NAME = ", "onBindViewHolder: ${model.productName}")
         Log.d("PRODUCT NAME = ", "onBindViewHolder: ${model.productPrice}")
@@ -57,6 +55,7 @@ class ListProductAdapter(
         val productName: TextView = itemView.findViewById(R.id.product_name)
         val productPrice: TextView = itemView.findViewById(R.id.product_price)
         val productCard: CardView = itemView.findViewById(R.id.prodcutCard)
+        val product_category: TextView = itemView.findViewById(R.id.product_category)
     }
 
     private fun showDetailsCard(model: ProductModel) {
@@ -73,11 +72,13 @@ class ListProductAdapter(
         val productName: TextView = detailsDialog.findViewById(R.id.productName)
         val productPrice: TextView = detailsDialog.findViewById(R.id.productPrice)
         val productDesc: TextView = detailsDialog.findViewById(R.id.productDescription)
+        val productCategory: TextView = detailsDialog.findViewById(R.id.productCategory)
         val productImage: ImageView = detailsDialog.findViewById(R.id.productImage)
 
         productName.text = model.productName
         productPrice.text = model.productPrice
         productDesc.text = model.productDescription
+        productCategory.text = model.category
 
         Glide.with(context)
             .load(model.productImage)

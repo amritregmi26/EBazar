@@ -71,6 +71,14 @@
             android:layout_margin="8dp"
             android:inputType="text" />
 
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:background="@drawable/edittext_design"
+            android:layout_margin="8dp"
+            android:padding="6dp"
+            android:layout_height="45dp"/>
+
         <EditText
             android:id="@+id/add_product_price"
             android:layout_width="match_parent"

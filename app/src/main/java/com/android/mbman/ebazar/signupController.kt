@@ -14,6 +14,14 @@ class SignupController : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private var db = Firebase.firestore
 
+    override fun onStart() {
+        super.onStart()
+        auth = FirebaseAuth.getInstance()
+        if (auth.currentUser != null) {
+            startActivity(Intent(this@SignupController, MainActivity::class.java))
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,11 +57,13 @@ class SignupController : AppCompatActivity() {
                 )
 
                 if (password == confirmPass) {
-                    if(password.length <= 5)
-                    {
-                        Toast.makeText(this, "Password must be at least 6 characters long",Toast.LENGTH_LONG).show()
-                    }
-                    else {
+                    if (password.length <= 5) {
+                        Toast.makeText(
+                            this,
+                            "Password must be at least 6 characters long",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
                         val users = db.collection("Users")
                         users.document(email).get()
                             .addOnSuccessListener { task ->

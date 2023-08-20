@@ -4,7 +4,8 @@ data class ProductModel(
     var productImage: String,
     var productName: String,
     var productPrice: String,
-    var productDescription: String
+    var productDescription: String,
+    var category: String
 ) {
-    constructor() : this("", "", "", "")
+    constructor() : this("", "", "", "", "")
 }
