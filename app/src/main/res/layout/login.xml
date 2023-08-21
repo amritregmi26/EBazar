@@ -49,21 +49,22 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/login_email"
+        android:id="@+id/email"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="268dp"
         android:background="@drawable/login_form"
         android:ems="10"
-        android:textColorHint="@color/secondary"
-        android:paddingStart="20dp"
         android:hint="@string/email"
         android:inputType="textEmailAddress"
+        android:paddingStart="20sp"
         android:textColor="@color/secondary"
+        android:textColorHint="@color/secondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.552"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_text" />
+        app:layout_constraintTop_toBottomOf="@+id/login_text"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/login_password"
@@ -80,7 +81,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.552"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_email"
+        app:layout_constraintTop_toBottomOf="@+id/email"
         app:layout_constraintVertical_bias="0.087" />
 
     <Button

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.android.mbman.ebazar.databinding.ActivityMainBinding
+import com.android.mbman.ebazar.home.HomeFragment
 import com.android.mbman.ebazar.productlist.ListProductFragment
 
 

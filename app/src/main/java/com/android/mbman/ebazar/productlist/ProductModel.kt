@@ -5,7 +5,8 @@ data class ProductModel(
     var productName: String,
     var productPrice: String,
     var productDescription: String,
-    var category: String
+    var category: String,
+    var uid: String
 ) {
-    constructor() : this("", "", "", "", "")
+    constructor() : this("", "", "", "", "", "")
 }

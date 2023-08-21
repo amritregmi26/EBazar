@@ -1,4 +1,4 @@
-package com.android.mbman.ebazar.productlist
+package com.android.mbman.ebazar.home
 
 import android.app.Dialog
 import android.content.Context
@@ -12,19 +12,20 @@ import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.android.mbman.ebazar.R
+import com.android.mbman.ebazar.productlist.ProductModel
 import com.bumptech.glide.Glide
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 
-class ListProductAdapter(
+class HomeCategoryAdapter(
     private val context: Context,
     options: FirebaseRecyclerOptions<ProductModel>
 ) :
-    FirebaseRecyclerAdapter<ProductModel, ListProductAdapter.ProductViewHolder>(options) {
+    FirebaseRecyclerAdapter<ProductModel, HomeCategoryAdapter.ProductViewHolder>(options) {
 
     private lateinit var detailsDialog: Dialog
-    private val firebaseAuth = FirebaseAuth.getInstance()
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view =
@@ -34,7 +35,7 @@ class ListProductAdapter(
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int, model: ProductModel) {
 
-        if (model.uid == firebaseAuth.uid.toString()) {
+        if (model.uid != auth.uid.toString()) {
             holder.productName.text = model.productName
             holder.productPrice.text = model.productPrice
             holder.product_category.text = model.category
@@ -51,7 +52,7 @@ class ListProductAdapter(
             holder.productCard.setOnClickListener {
                 showDetailsCard(model = model)
             }
-        } else {
+        }else{
             holder.productCard.isVisible = false
         }
     }
@@ -93,5 +94,4 @@ class ListProductAdapter(
 
         detailsDialog.show()
     }
-
 }

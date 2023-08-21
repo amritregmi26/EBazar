@@ -40,4 +40,11 @@
     <string name="add_image">Add Image</string>
     <string name="storage_rationale">This app needs access to your Storage to Upload Product Picture.</string>
     <string name="product_description">Product Description</string>
+    <string name="search">Search</string>
+    <string name="recommended">Recommended</string>
+    <string name="all">All</string>
+    <string name="agriculture">Agriculture</string>
+    <string name="electronics">Electronics</string>
+    <string name="garments">Garments</string>
+    <string name="electrical">Electrical</string>
 </resources>

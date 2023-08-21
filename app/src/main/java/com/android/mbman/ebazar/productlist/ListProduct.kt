@@ -65,8 +65,7 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
 
         val query = FirebaseDatabase.getInstance()
             .reference
-            .child("Product").child(firebaseaAuth.uid.toString())
-
+            .child("Product")
         val options = FirebaseRecyclerOptions.Builder<ProductModel>()
             .setQuery(query, ProductModel::class.java)
             .setLifecycleOwner(this)
@@ -150,10 +149,16 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
 
             Log.d("ON CLICK ADD PRODUCT", "showAddProductDialog: $")
 
-            val productModel = ProductModel(imageUri, name, price, description, selectedCategory)
+            val productModel = ProductModel(
+                imageUri,
+                name,
+                price,
+                description,
+                selectedCategory,
+                firebaseaAuth.uid.toString()
+            )
 
-            FirebaseDatabase.getInstance().reference.child("Product")
-                .child(firebaseaAuth.uid.toString()).push().setValue(productModel)
+            FirebaseDatabase.getInstance().reference.child("Product").push().setValue(productModel)
                 .addOnSuccessListener {
                     Toast.makeText(requireContext(), "Product Added !", Toast.LENGTH_SHORT).show()
                     addProductDialog.dismiss()
