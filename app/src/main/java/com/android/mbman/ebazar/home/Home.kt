@@ -49,22 +49,27 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         homeBinding.categoryAll.setOnClickListener {
             CATEGORY = "ALL"
+            homeBinding.categoryItemsRecyclerView.adapter = homeCategoryAdapter
             homeCategoryAdapter.notifyDataSetChanged()
         }
         homeBinding.categoryAgriculture.setOnClickListener {
             CATEGORY = "Agricultural"
+            homeBinding.categoryItemsRecyclerView.adapter = homeCategoryAdapter
             homeCategoryAdapter.notifyDataSetChanged()
         }
         homeBinding.categoryElectronics.setOnClickListener {
             CATEGORY = "Electronic"
+            homeBinding.categoryItemsRecyclerView.adapter = homeCategoryAdapter
             homeCategoryAdapter.notifyDataSetChanged()
         }
         homeBinding.categoryElectrial.setOnClickListener {
             CATEGORY = "Electrical"
+            homeBinding.categoryItemsRecyclerView.adapter = homeCategoryAdapter
             homeCategoryAdapter.notifyDataSetChanged()
         }
         homeBinding.categoryGarments.setOnClickListener {
             CATEGORY = "Garments"
+            homeBinding.categoryItemsRecyclerView.adapter = homeCategoryAdapter
             homeCategoryAdapter.notifyDataSetChanged()
         }
 

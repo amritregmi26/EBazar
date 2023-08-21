@@ -195,8 +195,6 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
                     text.isVisible = false
                     addIcon.isVisible = false
                     productImage.setImageURI(imageUri)
-
-
                 }
             }
         }
