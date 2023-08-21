@@ -16,10 +16,10 @@ class SignupController : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-       /* auth = FirebaseAuth.getInstance()
+        auth = FirebaseAuth.getInstance()
         if (auth.currentUser != null) {
             startActivity(Intent(this@SignupController, MainActivity::class.java))
-        }*/
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

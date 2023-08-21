@@ -214,9 +214,10 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
         progressDialog.setCancelable(false)
         progressDialog.show()
 
+        val randomText = generateRandomText(4)
         val user = firebaseAuth.currentUser
         val storageReference = storage.reference
-            .child("product_images")
+            .child("product_images $randomText")
             .child(user!!.uid)
 
         storageReference.putFile(imageUri)
@@ -297,6 +298,13 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
                 Manifest.permission.READ_EXTERNAL_STORAGE
             )
         }
+    }
+
+    fun generateRandomText(length: Int): String {
+        val allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        return (1..length)
+            .map { allowedChars.random() }
+            .joinToString("")
     }
 
 
