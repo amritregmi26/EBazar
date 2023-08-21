@@ -4,6 +4,8 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
+import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -23,7 +25,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.mbman.ebazar.R
@@ -31,7 +32,8 @@ import com.android.mbman.ebazar.databinding.FragmentListProductBinding
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.add_product.addIcon
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
@@ -43,7 +45,10 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
     private lateinit var imageUri: Uri
     private lateinit var addProductDialog: Dialog
     private lateinit var listProductAdapter: ListProductAdapter
-    private lateinit var firebaseaAuth: FirebaseAuth
+    private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var storage: FirebaseStorage
+    private lateinit var storageReference: StorageReference
+    private lateinit var progressDialog: ProgressDialog
 
 
     override fun onCreateView(
@@ -61,7 +66,9 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        firebaseaAuth = FirebaseAuth.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
+        storage = FirebaseStorage.getInstance()
+        storageReference = storage.reference
 
         val query = FirebaseDatabase.getInstance()
             .reference
@@ -145,33 +152,23 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
             val name = productName.text.toString()
             val price = productPrice.text.toString()
             val description = productDesc.text.toString()
-            val imageUri = imageUri.toString()
+            val imageUri = imageUri
 
             Log.d("ON CLICK ADD PRODUCT", "showAddProductDialog: $")
 
-            val productModel = ProductModel(
+
+
+            uploadToFirebase(
                 imageUri,
+                requireContext(),
                 name,
                 price,
                 description,
                 selectedCategory,
-                firebaseaAuth.uid.toString()
+                firebaseAuth.uid.toString()
             )
 
-            FirebaseDatabase.getInstance().reference.child("Product").push().setValue(productModel)
-                .addOnSuccessListener {
-                    Toast.makeText(requireContext(), "Product Added !", Toast.LENGTH_SHORT).show()
-                    addProductDialog.dismiss()
-                    listProductAdapter.notifyDataSetChanged()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(
-                        requireContext(),
-                        "Product Addition Failed !",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    addProductDialog.dismiss()
-                }
+
         }
 
         addProductDialog.show()
@@ -198,9 +195,89 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
                     text.isVisible = false
                     addIcon.isVisible = false
                     productImage.setImageURI(imageUri)
+
+
                 }
             }
         }
+
+    fun uploadToFirebase(
+        imageUri: Uri,
+        context: Context,
+        name: String,
+        price: String,
+        description: String,
+        selectedCategory: String,
+        uid: String
+    ) {
+
+        progressDialog = ProgressDialog(requireContext())
+        progressDialog.setTitle("Adding the Prodcut!")
+        progressDialog.setCancelable(false)
+        progressDialog.show()
+
+        val user = firebaseAuth.currentUser
+        val storageReference = storage.reference
+            .child("product_images")
+            .child(user!!.uid)
+
+        storageReference.putFile(imageUri)
+            .addOnSuccessListener {
+                getDownloadImageUrl(
+                    storageReference,
+                    context,
+                    name,
+                    price,
+                    description,
+                    selectedCategory,
+                    uid
+                )
+            }
+            .addOnProgressListener { snapshot ->
+                val progress = 100 * snapshot.bytesTransferred / snapshot.totalByteCount
+                progressDialog.setMessage("$progress%")
+
+            }
+
+    }
+
+    private fun getDownloadImageUrl(
+        reference: StorageReference,
+        context: Context,
+        name: String,
+        price: String,
+        description: String,
+        selectedCategory: String,
+        uid: String
+    ) {
+        // This method will download the image's Url from firebase and set the userProfile.
+        reference.downloadUrl.addOnSuccessListener { uri ->
+            val productModel = ProductModel(
+                uri.toString(),
+                name,
+                price,
+                description,
+                selectedCategory,
+                firebaseAuth.uid.toString()
+            )
+
+            FirebaseDatabase.getInstance().reference.child("Product").push().setValue(productModel)
+                .addOnSuccessListener {
+                    Toast.makeText(requireContext(), "Product Added !", Toast.LENGTH_SHORT).show()
+                    addProductDialog.dismiss()
+                    progressDialog.dismiss()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        requireContext(),
+                        "Product Addition Failed !",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    addProductDialog.dismiss()
+                    progressDialog.dismiss()
+                }
+        }
+    }
 
 
     private fun hasStoragePermission(): Boolean {

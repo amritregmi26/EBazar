@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.android.mbman.ebazar.R
+import com.android.mbman.ebazar.home.HomeFragment.Companion.CATEGORY
 import com.android.mbman.ebazar.productlist.ProductModel
 import com.bumptech.glide.Glide
 import com.firebase.ui.database.FirebaseRecyclerAdapter
@@ -36,23 +37,21 @@ class HomeCategoryAdapter(
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int, model: ProductModel) {
 
         if (model.uid != auth.uid.toString()) {
-            holder.productName.text = model.productName
-            holder.productPrice.text = model.productPrice
-            holder.product_category.text = model.category
+            when (CATEGORY) {
+                "ALL" -> {
+                    bindProductData(holder,model)
+                }
 
-            Log.d("PRODUCT NAME = ", "onBindViewHolder: ${model.productName}")
-            Log.d("PRODUCT NAME = ", "onBindViewHolder: ${model.productPrice}")
-            Log.d("PRODUCT NAME = ", "onBindViewHolder: ${model.productDescription}")
+                model.category -> {
+                    bindProductData(holder,model)
+                }
 
-            // Load product image using Glide or your preferred image loading library
-            Glide.with(context)
-                .load(model.productImage)
-                .into(holder.productImage)
-
-            holder.productCard.setOnClickListener {
-                showDetailsCard(model = model)
+                else -> {
+                    holder.productCard.isVisible = false
+                }
             }
-        }else{
+
+        } else {
             holder.productCard.isVisible = false
         }
     }
@@ -93,5 +92,25 @@ class HomeCategoryAdapter(
             .into(productImage)
 
         detailsDialog.show()
+    }
+
+    private fun bindProductData(holder: ProductViewHolder, model: ProductModel) {
+        holder.productName.text = model.productName
+        holder.productPrice.text = model.productPrice
+        holder.product_category.text = model.category
+
+        Log.d("PRODUCT NAME = ", "onBindViewHolder: ${model.productName}")
+        Log.d("PRODUCT NAME = ", "onBindViewHolder: ${model.productPrice}")
+        Log.d("PRODUCT NAME = ", "onBindViewHolder: ${model.productDescription}")
+        Log.d("PHOTO NAME = ", "onBindViewHolder: ${model.productImage}")
+
+        // Load product image using Glide or your preferred image loading library
+        Glide.with(context)
+            .load(model.productImage)
+            .into(holder.productImage)
+
+        holder.productCard.setOnClickListener {
+            showDetailsCard(model = model)
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.android.mbman.ebazar.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -35,6 +36,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         return homeBinding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -44,6 +46,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             firebaseAuth.signOut()
         }
+
+        homeBinding.categoryAll.setOnClickListener {
+            CATEGORY = "ALL"
+            homeCategoryAdapter.notifyDataSetChanged()
+        }
+        homeBinding.categoryAgriculture.setOnClickListener {
+            CATEGORY = "Agricultural"
+            homeCategoryAdapter.notifyDataSetChanged()
+        }
+        homeBinding.categoryElectronics.setOnClickListener {
+            CATEGORY = "Electronic"
+            homeCategoryAdapter.notifyDataSetChanged()
+        }
+        homeBinding.categoryElectrial.setOnClickListener {
+            CATEGORY = "Electrical"
+            homeCategoryAdapter.notifyDataSetChanged()
+        }
+        homeBinding.categoryGarments.setOnClickListener {
+            CATEGORY = "Garments"
+            homeCategoryAdapter.notifyDataSetChanged()
+        }
+
+
 
         val query = FirebaseDatabase.getInstance()
             .reference
@@ -67,7 +92,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         })
 
         homeBinding.categoryItemsRecyclerView.adapter = homeCategoryAdapter
-        homeCategoryAdapter.notifyDataSetChanged()
 
+    }
+
+    companion object{
+        var CATEGORY = "ALL"
     }
 }
