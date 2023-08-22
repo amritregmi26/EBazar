@@ -50,5 +50,7 @@ class LoginController : AppCompatActivity() {
 
         }
     }
-
+    override fun onBackPressed() {
+        finishAffinity()
+    }
 }
