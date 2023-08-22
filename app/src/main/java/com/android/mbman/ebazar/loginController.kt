@@ -28,7 +28,7 @@ class LoginController : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         binding.loginBtn.setOnClickListener {
-            val email = binding.email?.text.toString().trim()
+            val email = binding.loginEmail.text.toString().trim()
             val password = binding.loginPassword.text.toString()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
