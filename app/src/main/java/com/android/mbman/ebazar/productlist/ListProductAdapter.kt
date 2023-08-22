@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +17,10 @@ import com.bumptech.glide.Glide
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class ListProductAdapter(
     private val context: Context,
@@ -34,10 +39,22 @@ class ListProductAdapter(
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int, model: ProductModel) {
 
+        val query = FirebaseDatabase.getInstance()
+            .reference
+            .child("Product")
+
         if (model.uid == firebaseAuth.uid.toString()) {
             holder.productName.text = model.productName
             holder.productPrice.text = model.productPrice
             holder.product_category.text = model.category
+            holder.delete.isVisible = true
+
+            holder.delete.setOnClickListener {
+                val key = getRef(position).key
+                FirebaseDatabase.getInstance()
+                    .reference
+                    .child("Product").child(key!!).removeValue()
+            }
 
             Log.d("PRODUCT NAME = ", "onBindViewHolder: ${model.productName}")
             Log.d("PRODUCT NAME = ", "onBindViewHolder: ${model.productPrice}")
@@ -56,6 +73,32 @@ class ListProductAdapter(
         }
     }
 
+    private fun checkAndDeleteProduct(productNameToDelete: String) {
+        val query =
+            FirebaseDatabase.getInstance().getReference("Products").orderByChild("productName")
+                .equalTo(productNameToDelete)
+
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (snapshot in dataSnapshot.children) {
+                    snapshot.ref.removeValue()
+                        .addOnSuccessListener {
+                            Toast.makeText(context, "Deleted Successfully!", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                        .addOnFailureListener { exception ->
+                            Toast.makeText(context, "Deletion Failed!", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle errors
+            }
+        })
+    }
+
 
     inner class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val productImage: ImageView = itemView.findViewById(R.id.product_image)
@@ -63,6 +106,7 @@ class ListProductAdapter(
         val productPrice: TextView = itemView.findViewById(R.id.product_price)
         val productCard: CardView = itemView.findViewById(R.id.prodcutCard)
         val product_category: TextView = itemView.findViewById(R.id.product_category)
+        val delete: ImageView = itemView.findViewById(R.id.delete)
     }
 
     private fun showDetailsCard(model: ProductModel) {
