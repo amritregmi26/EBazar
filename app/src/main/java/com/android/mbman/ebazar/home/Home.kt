@@ -3,10 +3,10 @@ package com.android.mbman.ebazar.home
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,15 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.mbman.ebazar.LoginController
 import com.android.mbman.ebazar.R
 import com.android.mbman.ebazar.databinding.FragmentHomeBinding
-import com.android.mbman.ebazar.productlist.ListProductAdapter
 import com.android.mbman.ebazar.productlist.ProductModel
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import java.util.Arrays
+import java.util.Locale
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var homeBinding: FragmentHomeBinding
@@ -48,6 +44,26 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             firebaseAuth.signOut()
             startActivity(Intent(requireContext(), LoginController::class.java))
         }
+
+        homeBinding.searchBar.setOnQueryTextFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                // Focus lost, clear the search results or perform any other actions
+            }
+        }
+
+        homeBinding.searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null && query.isNotEmpty()) {
+                    searchProduct(query)
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // You can implement real-time filtering here if desired
+                return true
+            }
+        })
 
         homeBinding.categoryAll.setOnClickListener {
             CATEGORY = "ALL"
@@ -104,4 +120,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     companion object {
         var CATEGORY = "ALL"
     }
+
+
+    private fun searchProduct(query: String) {
+        val options: FirebaseRecyclerOptions<ProductModel> =
+            FirebaseRecyclerOptions.Builder<ProductModel>()
+                .setQuery(
+                    FirebaseDatabase.getInstance().reference
+                        .child("Product").orderByChild("productName").startAt(query.toLowerCase(
+                            Locale.ROOT))
+                        .endAt("$query\uff8ff"),
+                    ProductModel::class.java
+                )
+                .build()
+
+        homeCategoryAdapter = HomeCategoryAdapter(requireContext(), options)
+        homeCategoryAdapter.startListening()
+        homeBinding.categoryItemsRecyclerView.adapter = homeCategoryAdapter
+    }
+
 }

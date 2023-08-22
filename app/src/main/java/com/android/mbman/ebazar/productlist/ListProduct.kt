@@ -57,6 +57,7 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
                 val res = result.data
                 if (res != null) {
                     imageUri = res.data!!
+                    productImage.setImageURI(imageUri)
                     Log.d("image uri", "IMAGE URI: $imageUri")
                 }
 
@@ -136,7 +137,6 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
         val items = listOf("Select Item", "Electronic", "Electrical", "Agricultural", "Garments")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
 
-        productImage.setImageURI(imageUri)
 
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -302,7 +302,7 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
         }
     }
 
-    fun generateRandomText(length: Int): String {
+    private fun generateRandomText(length: Int): String {
         val allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
         return (1..length)
             .map { allowedChars.random() }

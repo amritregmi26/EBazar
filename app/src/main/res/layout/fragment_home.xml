@@ -38,30 +38,11 @@
 
         </LinearLayout>
 
-        <!-- Recommended Text -->
-        <TextView
-            android:id="@+id/recommendedText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/topBarLayout"
-            android:padding="16dp"
-            android:text="@string/recommended"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recommendedRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/recommendedText"
-            android:padding="8dp" />
-
         <HorizontalScrollView
             android:id="@+id/categoriesScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/recommendedRecyclerView">
+            android:layout_below="@id/topBarLayout">
 
             <LinearLayout
                 android:layout_width="wrap_content"
