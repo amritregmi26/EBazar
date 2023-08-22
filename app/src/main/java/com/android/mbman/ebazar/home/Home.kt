@@ -127,9 +127,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             FirebaseRecyclerOptions.Builder<ProductModel>()
                 .setQuery(
                     FirebaseDatabase.getInstance().reference
-                        .child("Product").orderByChild("productName").startAt(query.toLowerCase(
-                            Locale.ROOT))
-                        .endAt("$query\uff8ff"),
+                        .child("Product").orderByChild("productName").startAt(query),
                     ProductModel::class.java
                 )
                 .build()
@@ -137,6 +135,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         homeCategoryAdapter = HomeCategoryAdapter(requireContext(), options)
         homeCategoryAdapter.startListening()
         homeBinding.categoryItemsRecyclerView.adapter = homeCategoryAdapter
+        homeCategoryAdapter.notifyDataSetChanged()
     }
 
 }
