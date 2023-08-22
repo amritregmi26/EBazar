@@ -11,8 +11,8 @@
 
     <ImageView
         android:id="@+id/login_illustration"
-        android:layout_width="411dp"
-        android:layout_height="358dp"
+        android:layout_width="408dp"
+        android:layout_height="355dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -38,7 +38,6 @@
         android:id="@+id/login_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_condensed_bold"
         android:text="@string/log_in"
         android:textColor="@color/white"
         android:textSize="40sp"
@@ -49,21 +48,21 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/email"
+        android:id="@+id/login_email"
         android:layout_width="250dp"
         android:layout_height="50dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/login_form"
         android:ems="10"
-        android:hint="@string/email"
         android:textColorHint="@color/secondary"
-        android:paddingStart="20sp"
+        android:paddingStart="20dp"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:textColor="@color/secondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.552"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_text"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/login_text" />
 
     <EditText
         android:id="@+id/login_password"
@@ -80,7 +79,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.552"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
+        app:layout_constraintTop_toBottomOf="@+id/login_email"
         app:layout_constraintVertical_bias="0.087" />
 
     <Button
