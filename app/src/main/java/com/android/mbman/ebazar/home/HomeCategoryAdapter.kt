@@ -18,6 +18,12 @@ import com.bumptech.glide.Glide
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class HomeCategoryAdapter(
     private val context: Context,
@@ -27,6 +33,9 @@ class HomeCategoryAdapter(
 
     private lateinit var detailsDialog: Dialog
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val db = FirebaseFirestore.getInstance()
+    var userNumber = ""
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view =
@@ -36,14 +45,17 @@ class HomeCategoryAdapter(
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int, model: ProductModel) {
 
+        fetchDataFromFireStore()
+
+
         if (model.uid != auth.uid.toString()) {
             when (CATEGORY) {
                 "ALL" -> {
-                    bindProductData(holder,model)
+                    bindProductData(holder, model)
                 }
 
                 model.category -> {
-                    bindProductData(holder,model)
+                    bindProductData(holder, model)
                 }
 
                 else -> {
@@ -66,6 +78,8 @@ class HomeCategoryAdapter(
     }
 
     private fun showDetailsCard(model: ProductModel) {
+
+
         detailsDialog = Dialog(context)
         detailsDialog.apply {
             window?.setContentView(R.layout.show_details)
@@ -79,6 +93,7 @@ class HomeCategoryAdapter(
         val productName: TextView = detailsDialog.findViewById(R.id.productName)
         val productPrice: TextView = detailsDialog.findViewById(R.id.productPrice)
         val productDesc: TextView = detailsDialog.findViewById(R.id.productDescription)
+        val phoneNumber: TextView = detailsDialog.findViewById(R.id.phoneNumber)
         val productCategory: TextView = detailsDialog.findViewById(R.id.productCategory)
         val productImage: ImageView = detailsDialog.findViewById(R.id.productImage)
 
@@ -86,6 +101,10 @@ class HomeCategoryAdapter(
         productPrice.text = model.productPrice
         productDesc.text = model.productDescription
         productCategory.text = model.category
+        phoneNumber.text = userNumber
+
+        Log.d("NUMBER", "showDetailsCard: $userNumber")
+
 
         Glide.with(context)
             .load(model.productImage)
@@ -95,6 +114,8 @@ class HomeCategoryAdapter(
     }
 
     private fun bindProductData(holder: ProductViewHolder, model: ProductModel) {
+
+
         holder.productName.text = model.productName
         holder.productPrice.text = model.productPrice
         holder.product_category.text = model.category
@@ -111,6 +132,25 @@ class HomeCategoryAdapter(
 
         holder.productCard.setOnClickListener {
             showDetailsCard(model = model)
+        }
+    }
+
+    private fun fetchDataFromFireStore() {
+        if(auth.currentUser != null) {
+            val documentRef = db.collection("Users").document(auth.currentUser!!.email!!)
+
+            documentRef.get()
+                .addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
+                        val fieldValue = documentSnapshot.getString("phoneNumber")
+                        if (fieldValue != null) {
+                            userNumber = fieldValue
+                        }
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // Handle errors
+                }
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.android.mbman.ebazar.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.mbman.ebazar.LoginController
 import com.android.mbman.ebazar.R
 import com.android.mbman.ebazar.databinding.FragmentHomeBinding
 import com.android.mbman.ebazar.productlist.ListProductAdapter
@@ -43,8 +45,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         firebaseAuth = FirebaseAuth.getInstance()
 
         homeBinding.userIcon.setOnClickListener {
-
             firebaseAuth.signOut()
+            startActivity(Intent(requireContext(), LoginController::class.java))
         }
 
         homeBinding.categoryAll.setOnClickListener {
@@ -74,7 +76,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
 
-
         val query = FirebaseDatabase.getInstance()
             .reference
             .child("Product")
@@ -100,7 +101,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     }
 
-    companion object{
+    companion object {
         var CATEGORY = "ALL"
     }
 }

@@ -49,6 +49,24 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
     private lateinit var storage: FirebaseStorage
     private lateinit var storageReference: StorageReference
     private lateinit var progressDialog: ProgressDialog
+    private lateinit var productImage: ImageView
+
+    private val launcher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val res = result.data
+                if (res != null) {
+                    imageUri = res.data!!
+                    Log.d("image uri", "IMAGE URI: $imageUri")
+                }
+
+
+                val addIcon: ImageView = addProductDialog.findViewById(R.id.addIcon)
+                val text: TextView = addProductDialog.findViewById(R.id.add_product_text)
+                text.isVisible = false
+                addIcon.isVisible = false
+            }
+        }
 
 
     override fun onCreateView(
@@ -58,7 +76,6 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
     ): View {
         productBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_list_product, container, false)
-
         return productBinding.root
     }
 
@@ -112,12 +129,15 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
         val productPrice: EditText = addProductDialog.findViewById(R.id.add_product_price)
         val productDesc: EditText = addProductDialog.findViewById(R.id.add_product_description)
         val addProductBTN: Button = addProductDialog.findViewById(R.id.add_product_button)
-        val productImage: ImageView = addProductDialog.findViewById(R.id.add_product_image)
+        productImage = addProductDialog.findViewById(R.id.add_product_image)
 
         val spinner: Spinner = addProductDialog.findViewById(R.id.spinner)
 
         val items = listOf("Select Item", "Electronic", "Electrical", "Agricultural", "Garments")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, items)
+
+        productImage.setImageURI(imageUri)
+
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
@@ -156,8 +176,6 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
 
             Log.d("ON CLICK ADD PRODUCT", "showAddProductDialog: $")
 
-
-
             uploadToFirebase(
                 imageUri,
                 requireContext(),
@@ -182,22 +200,6 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
         launcher.launch(pickImageIntent)
     }
 
-    private val launcher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val res = result.data
-                if (res != null) {
-                    imageUri = res.data!!
-                    val productImage: ImageView =
-                        addProductDialog.findViewById(R.id.add_product_image)
-                    val addIcon: ImageView = addProductDialog.findViewById(R.id.addIcon)
-                    val text: TextView = addProductDialog.findViewById(R.id.add_product_text)
-                    text.isVisible = false
-                    addIcon.isVisible = false
-                    productImage.setImageURI(imageUri)
-                }
-            }
-        }
 
     fun uploadToFirebase(
         imageUri: Uri,
