@@ -212,7 +212,7 @@ class ListProductFragment : Fragment(R.layout.fragment_list_product),
     ) {
 
         progressDialog = ProgressDialog(requireContext())
-        progressDialog.setTitle("Adding the Prodcut!")
+        progressDialog.setTitle("Adding the Product!")
         progressDialog.setCancelable(false)
         progressDialog.show()
 
