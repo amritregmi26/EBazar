@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
 
         // Fragment Initialization
         val accountFragment = AccountFragment()
-        val helpFragment = HelpFragment()
         val listProductFragment = ListProductFragment()
         val homeFragment = HomeFragment()
 
@@ -28,7 +27,6 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId)
             {
                 R.id.miHome -> setCurrentFragment(homeFragment)
-                R.id.miHelp-> setCurrentFragment(helpFragment)
                 R.id.miAcc -> setCurrentFragment(accountFragment)
                 R.id.miList -> setCurrentFragment(listProductFragment)
             }
